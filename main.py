@@ -3,12 +3,12 @@ import requests
 from datetime import datetime
 import smtplib
 
-MY_LOC = (41.510372, -112.01572) # Your Latitude and longitude
-SENDER_EMAIL = os.environ['sender_email']
-PASSWORD = os.environ['sender_password']
-RECIEVER_EMAIL = os.environ['reciever_email']
+MY_LOC = (, ) #--------------------------------------------------------------Your Latitude and longitude as floats.
+SENDER_EMAIL = #----This is how the code will send the email. Dont use an email that has sensitive info tied to it.
+PASSWORD = #------------------------------------------------------------This is the password for the senders email.
+RECIEVER_EMAIL = #------------------------------ This is the email that you would like to receive the notification.
 
-#--------------CHECKING IF ISS IS OVERHEAD CURRENTLY---------------------------------
+#-----------------------------------------------------------------------------CHECKING IF ISS IS OVERHEAD CURRENTLY
 def iss_is_overhead():
   response = requests.get(url="http://api.open-notify.org/iss-now.json")
   response.raise_for_status()
@@ -26,7 +26,7 @@ def iss_is_overhead():
     print(f"ISS is not overhead.\nYour location: {MY_LOC}\nISS Location: {iss_position}")
     return False
 
-#--------------CHECKING IF ISS IS VISIBLE OR NOT------------------------------------
+#---------------------------------------------------------------------------------CHECKING IF ISS IS VISIBLE OR NOT
 def is_night():
   parameters = {
   "lat": MY_LOC[0],
@@ -50,7 +50,7 @@ def is_night():
     print("It is day time in your area.")
     return False
 
-#--------------SENDING NOTIFICATION TO PROVIDED EMAIL-------------------------------
+#---------------------------------------------------------------------------SENDING NOTIFICATION TO PROVIDED EMAIL
 def send_notification():
   print("Sending Notification.")
   with smtplib.SMTP("smtp.gmail.com") as connection:
@@ -61,6 +61,7 @@ def send_notification():
       to_addrs=RECIEVER_EMAIL, 
       msg="Subject:ISS\n\nThe International Space Station is overhead!")
 
-#--------------MAIN CODE TO RUN-----------------------------------------------------
+#-------------------------------------------------------------------------------------------------MAIN CODE TO RUN
 if iss_is_overhead() and is_night():
   send_notification()
+  
